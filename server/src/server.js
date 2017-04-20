@@ -39,13 +39,22 @@ function getFeedItemSync(feedItemId) {
  * Get the feed data for a particular user.
  */
 function getFeedData(user) {
-  var userData = readDocument('users', user);
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/user/4/feed');
+xhr.setRequestHeader('Authorization', 'Bearer jsontokenhere');
+xhr.addEventListener('load', function() {
+  // Call the callback with the data.
+  cb(JSON.parse(xhr.responseText));
+  xhr.send();
+});
+
+/*  var userData = readDocument('users', user);
   var feedData = readDocument('feeds', userData.feed);
   // While map takes a callback, it is synchronous,
   // not asynchronous. It calls the callback immediately.
   feedData.contents = feedData.contents.map(getFeedItemSync);
   // Return FeedData with resolved references.
-  return feedData;
+  return feedData;*/
 }
 
 /**
